@@ -21,18 +21,18 @@ export const TodoModal = () => {
               <span className="text-xl">X</span>
             </button>
           </div>
-          <div className="flex flex-col items-center mt-10">
+          <div className="flex flex-col items-center mt-10 2xl:mt-28">
             <form className="flex flex-col">
               <input 
-                className="w-[350px] p-1 rounded-md bg-slate-700 text-slate-50 placeholder:text-slate-300 px-2"
+                className="w-[350px] p-1 rounded-md bg-slate-700 text-slate-50 placeholder:text-slate-300 px-2 2xl:w-[400px] 2xl:py-3"
                 placeholder="Title"
               />
               <textarea
-                className="w-[350px] p-1 rounded-md bg-slate-700 text-slate-50 placeholder:text-slate-300 px-2 mt-2"
+                className="w-[350px] p-1 rounded-md bg-slate-700 text-slate-50 placeholder:text-slate-300 px-2 mt-2 2xl:w-[400px] 2xl:py-3"
                 placeholder="Description"
               />
               <select
-                className="w-[350px] p-1 rounded-md bg-slate-700 text-slate-50 placeholder:text-slate-300 px-2 mt-2"
+                className="w-[350px] p-1 rounded-md bg-slate-700 text-slate-50 placeholder:text-slate-300 px-2 mt-2 2xl:w-[400px] 2xl:py-3"
               >
                 <option value="1">Pending</option>
                 <option value="2">In Progress</option>

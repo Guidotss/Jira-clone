@@ -17,8 +17,6 @@ export const TodoLayOut:FC<TodoLayOutProps> = ({ title,description,fullUrlImage,
 
 
   const handleClose = () => {
-
-    if(isModalOpen) closeModal();
     if(isOpenSideBar) closeSideBar();
   }
 
