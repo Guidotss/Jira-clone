@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+    background-color: rgb(15 23 42);
+}
+
+
+.body-scroll-bar::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+.body-scroll-bar::-webkit-scrollbar-track {
+    background: #444654;
+    border-radius: 0.5rem;
+}
+
+.divider{
+    border-bottom: 1px solid #444654;
+}
