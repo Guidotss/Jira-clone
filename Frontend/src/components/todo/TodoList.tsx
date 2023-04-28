@@ -14,6 +14,7 @@ export const TodoList:FC<TodoListProps> = ({ entries }) => {
         <Draggable key={entry.id} draggableId={entry.id} index={index}>
           {(provided) => (
             <div
+              className="mt-2"
               ref={provided.innerRef}
               {...provided.draggableProps}
               {...provided.dragHandleProps}
