@@ -1,27 +1,33 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity,PrimaryGeneratedColumn,Column } from 'typeorm';
 
-type status = 'pending' | 'in-progress' | 'done';
+export type EntryStatus = 'pending' | 'in-progress' | 'completed';
 
-@Entity({ name:'entries' })
+@Entity({name:'entries'})
 export class Entry {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+    @PrimaryGeneratedColumn('uuid')
+    id: number;
 
-  @Column({
-    type: 'text',
-    nullable: false,
-  })
-  title: string;
+    @Column({
+        type:'text',
+        nullable:false
+    })
+    title: string;
 
-  @Column({
-    type: 'text',
-    nullable: true,
-  })
-  description?: string;
+    @Column({
+        type:'text',
+        nullable:true
+    })
+    description: string;
 
-  @Column({
-    type: 'text',
-    nullable: false,
-  })
-  status: status;
+    @Column({
+        type:'text',
+        nullable:false
+    })
+    status: EntryStatus;
+
+    @Column({
+        type:'text',
+        nullable:true
+    })
+    createdAt: string;
 }

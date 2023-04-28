@@ -4,15 +4,14 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const logger = new Logger('Bootstrap');
-  app.setGlobalPrefix('/api/v1');
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-    }),
-  );
-  await app.listen(3000);
-  logger.log('Application listening on port 3000');
+  const logger = new Logger('Bootstrap'); 
+  
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true,
+  }));
+  app.setGlobalPrefix('api/v1');
+  await app.listen(process.env.PORT || 3000);
+  logger.log(`Application listening on port ${ process.env.PORT }`);
 }
 bootstrap();

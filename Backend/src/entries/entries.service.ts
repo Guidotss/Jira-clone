@@ -1,34 +1,35 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Injectable, Logger,InternalServerErrorException } from '@nestjs/common';
 import { Repository, DataSource } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateEntryDto } from './dto/create-entry.dto';
 import { UpdateEntryDto } from './dto/update-entry.dto';
-import { Entry } from './entities/entry.entity';
-import { declare } from '../../dist/entries/entries.module';
+import { Entry } from './entities/entry.entity'
 
 @Injectable()
 export class EntriesService {
 
-  private readonly logger = new Logger('EntriesService');
+  private logger = new Logger('EntriesService');
 
-  constructor(
+  constructor (
     @InjectRepository(Entry)
-    private readonly entryRepository: Repository<Entry>,
-    private readonly dataSource: DataSource, 
+    private readonly entriesRepository: Repository<Entry>,
+    private readonly dataSource: DataSource
   ) {}
 
   async create(createEntryDto: CreateEntryDto) {
     try{
-      const entry = this.entryRepository.create(createEntryDto);
-      await this.entryRepository.save(entry);
-      return entry;
+      const date = new Date();
+      const createdAt = date.toISOString().split('T')[0];
+      const entry = this.entriesRepository.create({...createEntryDto,createdAt});
+      return await this.entriesRepository.save(entry);
+      
     }catch(error){
-      this.handleException(error);
+      this.handleErrors(error);
     }
   }
 
-  findAll() {
-    return `This action returns all entries`;
+  async findAll() {
+    return await this.entriesRepository.find();
   }
 
   findOne(id: string) {
@@ -43,11 +44,11 @@ export class EntriesService {
     return `This action removes a #${id} entry`;
   }
 
-  handleException(error: any){
+  handleErrors(error: any){
     if(error.code === '23505')
-      throw new InternalServerErrorException(error.detail);
-    
-    this.logger.error(error);
-    throw new InternalServerErrorException('Unexpected error, check server logs');    
+      throw new InternalServerErrorException('Duplicate entry'); 
+    else
+      this.logger.error(error.message, error.stack);
+      throw new InternalServerErrorException('Unexpected error has occurred while processing your request, please check the server logs for more details');
   }
 }
