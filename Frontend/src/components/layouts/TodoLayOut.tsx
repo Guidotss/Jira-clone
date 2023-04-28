@@ -37,7 +37,7 @@ export const TodoLayOut:FC<TodoLayOutProps> = ({ title,description,fullUrlImage,
         <header className={`fixed w-full z-10 shadow-sm`}>
           <NavBar/>
         </header>
-        <aside className={`bg-slate-800 w-[260px] h-full fixed z-10 flex flex-col ${isOpenSideBar ? "animate__animated animate__slideInLeft animate__faster" : "hidden"}`}>
+        <aside className={`bg-slate-800 w-[260px] h-full fixed z-10 flex flex-col shadow-xl ${isOpenSideBar ? "animate__animated animate__slideInLeft animate__faster" : "hidden"}`}>
           <SideBar/>
         </aside>
         <main className={`${isOpenSideBar ? "blur-sm" : ''} h-screen p-20`} onClick={handleClose}>

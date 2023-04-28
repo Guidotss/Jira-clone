@@ -57,9 +57,19 @@ const ENTRIES_INITIAL_STATE: EntriesState = {
 export const EntriesProvider:FC<EntriesProviderProps> = ({ children }) => {
     const [ state, dispatch ] = useReducer( entriesReducer, ENTRIES_INITIAL_STATE);
 
+
+    const addEntry = ( entry:Entry ) => {
+        dispatch({
+            type: '[ENTRIES] - Add-entry',
+            payload: entry
+        }); 
+    }
+
     return (
         <EntriesContext.Provider value={{
-            ...state
+            ...state,
+
+            addEntry
         }}>
             { children }
         </EntriesContext.Provider>

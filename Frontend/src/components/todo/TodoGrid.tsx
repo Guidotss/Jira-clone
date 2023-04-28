@@ -1,27 +1,32 @@
-import { useContext, useState } from "react";
-import { UiContext } from "@/context";
-import { TodoList } from "./TodoList";
+import { useContext } from "react";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
-import { EntriesContext } from "@/context/entries";
-import { Entry } from "@/interfaces";
+import { UiContext } from "@/context";
 import { useDrag } from "@/hooks";
+import { TodoList } from "./TodoList";
+
 
 export const TodoGrid = () => {
 
   const { openModal } = useContext(UiContext);
-  const { entries } = useContext(EntriesContext);
-  const { pendingEntries, completedEntries, inProgressEntries, onDragEnd } = useDrag(entries); 
+  const { pendingEntries, completedEntries, inProgressEntries, onDragEnd } = useDrag(); 
 
   const handleOpenModal = () => {
     openModal();
   };
 
 
+
   return (
     <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
       <div className="grid grid-cols-3 gap-20">
-        <div className="h-screen bg-slate-800 flex flex-col items-center">
+        <div className="h-screen bg-slate-800 flex flex-col items-center overflow-y-auto body-scroll-bar">
           <h1 className="text-2xl text-slate-50 tracking-wide">Pending</h1>
+          <button 
+            className="border-[1px] border-red-500 px-2 w-3/4 mt-2 rounded-full hover:bg-red-500"
+            onClick={handleOpenModal}
+          >
+            <span className="text-slate-50 text-lg">New Entry</span>
+          </button>
           <Droppable droppableId="pending">
             {(provided) => (
               <div
@@ -35,7 +40,7 @@ export const TodoGrid = () => {
             )}
           </Droppable>
         </div>
-      <div className="h-screen bg-slate-800 flex flex-col items-center">
+      <div className="h-screen bg-slate-800 flex flex-col items-center overflow-y-auto body-scroll-bar">
         <h1 className="text-2xl text-slate-50 tracking-wide">In-progress</h1>
         <Droppable droppableId="in-progress">
           {(provided) => (
@@ -50,7 +55,7 @@ export const TodoGrid = () => {
           )}
         </Droppable>
       </div>
-      <div className="h-screen bg-slate-800 flex flex-col items-center">
+      <div className="h-screen bg-slate-800 flex flex-col items-center overflow-y-auto body-scroll-bar">
         <h1 className="text-2xl text-slate-50 tracking-wide">Completed</h1>
         <Droppable droppableId="completed">
           {(provided) => (

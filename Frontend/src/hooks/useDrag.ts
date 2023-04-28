@@ -1,7 +1,19 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Entry } from "@/interfaces";
+import { EntriesContext } from "@/context";
 
-export const useDrag = (entries: Entry[]) => {
+export const useDrag = () => {
+  
+  const { entries } = useContext(EntriesContext);
+
+  useEffect(() => {
+    setPendingEntries(entries.filter((entry) => entry.status === "pending"));
+    setInProgressEntries(
+      entries.filter((entry) => entry.status === "in-progress")
+    );
+    setCompletedEntries(entries.filter((entry) => entry.status === "completed"));
+  }, [entries]);
+
   const [pendingEntries, setPendingEntries] = useState<Entry[]>(
     entries.filter((entry) => entry.status === "pending")
   );

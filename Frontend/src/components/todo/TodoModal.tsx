@@ -1,11 +1,28 @@
-import { useContext } from "react";
-import { UiContext } from "@/context";
+import { FormEvent, useContext, useState } from "react";
+import { EntriesContext, UiContext } from "@/context";
+import { Entry } from "@/interfaces";
+
 
 export const TodoModal = () => {
 
+  const [entry, setEntry] = useState<Entry>({
+    id: "10",
+    title: "saludar",
+    description: "hola",
+    status: "in-progress"
+  }); 
+
+  const { title, description, status } = entry 
   const { isModalOpen,closeModal } = useContext(UiContext); 
+  const { addEntry } = useContext(EntriesContext);
 
   const handleCloseModal = () => {
+    closeModal();
+  }
+  
+  const handleAddTodo = (event:FormEvent) => {
+    event.preventDefault();
+    addEntry(entry); 
     closeModal();
   }
 
@@ -22,21 +39,30 @@ export const TodoModal = () => {
             </button>
           </div>
           <div className="flex flex-col items-center mt-10 2xl:mt-28">
-            <form className="flex flex-col">
+            <form className="flex flex-col" onSubmit={ handleAddTodo }>
               <input 
                 className="w-[350px] p-1 rounded-md bg-slate-700 text-slate-50 placeholder:text-slate-300 px-2 2xl:w-[400px] 2xl:py-3"
                 placeholder="Title"
+                name="title"
+                value={title}
+                onChange={ (e) => setEntry({...entry, title: e.target.value})}
               />
               <textarea
                 className="w-[350px] p-1 rounded-md bg-slate-700 text-slate-50 placeholder:text-slate-300 px-2 mt-2 2xl:w-[400px] 2xl:py-3"
                 placeholder="Description"
+                name="description"
+                value={description}
+                onChange={ (e) => setEntry({...entry, description: e.target.value})}
               />
               <select
                 className="w-[350px] p-1 rounded-md bg-slate-700 text-slate-50 placeholder:text-slate-300 px-2 mt-2 2xl:w-[400px] 2xl:py-3"
+                name="status"
+                value={status}
+                onChange={ (e) => console.log(e.target.value)}
               >
-                <option value="1">Pending</option>
-                <option value="2">In Progress</option>
-                <option value="3">Completed</option>
+                <option value="pending">Pending</option>
+                <option value="in-progress">In Progress</option>
+                <option value="completed">Completed</option>
               </select>
 
               <div className="flex justify-center mt-2">
