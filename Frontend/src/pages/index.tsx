@@ -5,7 +5,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   return (
-    <TodoLayOut title='Home Jira' description='Pagina principal de Jira-clone'>
+    <TodoLayOut title='Home | Jira' description='Pagina principal de Jira-clone'>
       <div>
         <div>
           <TodoGrid/>
