@@ -1,7 +1,7 @@
-import { FC, useReducer } from 'react'; 
+import { FC, useEffect, useReducer } from 'react'; 
 import { EntriesContext,entriesReducer } from './';
+import { todoApi } from '@/api'
 import { Entry } from '@/interfaces';
-
 
 interface EntriesProviderProps {
     children:React.ReactNode; 
@@ -12,64 +12,44 @@ export interface EntriesState {
 }
 
 const ENTRIES_INITIAL_STATE: EntriesState = {
-    entries: [
-        {
-            id: '1',
-            title: 'First Entry',
-            description: 'This is the first entry on the list',
-            status: 'pending'
-        },
-        {
-            id: '2',
-            title: 'Second Entry',
-            description: 'This is the second entry on the list',
-            status: 'in-progress'
-        },
-        {
-            id: '3',
-            title: 'Third Entry',
-            description: 'This is the third entry on the list',
-            status: 'completed'
-        },
-        {
-            id: '4',
-            title: 'Fourth Entry',
-            description: 'This is the fourth entry on the list',
-            status: 'pending'
-
-        },
-        {
-            id: '5',
-            title: 'Fifth Entry',
-            description: 'This is the fifth entry on the list',
-            status: 'in-progress'
-        },
-        {
-            id: '6',
-            title: 'Sixth Entry',
-            description: 'This is the sixth entry on the list',
-            status: 'completed'
-        }
-    ]
+    entries: []
 }
 
 
 export const EntriesProvider:FC<EntriesProviderProps> = ({ children }) => {
     const [ state, dispatch ] = useReducer( entriesReducer, ENTRIES_INITIAL_STATE);
 
+    useEffect(() => {
+        getEntries(); 
+    },[]); 
 
-    const addEntry = ( entry:Entry ) => {
+    const getEntries = async () => {
+        const { data } = await todoApi.get('/entries');
         dispatch({
-            type: '[ENTRIES] - Add-entry',
-            payload: entry
-        }); 
+            type: '[ENTRIES] - Load-entries',
+            payload: data
+        })
     }
+
+    const addEntry = async ( entry:Entry ) => {
+        try{
+            const { data } = await todoApi.post('/entries', entry);
+            dispatch({
+                type: '[ENTRIES] - Add-entry',
+                payload: data
+            }); 
+        }catch(error){
+            console.log(error); 
+        }
+    }
+
 
     return (
         <EntriesContext.Provider value={{
             ...state,
 
-            addEntry
+            addEntry,
+            
         }}>
             { children }
         </EntriesContext.Provider>

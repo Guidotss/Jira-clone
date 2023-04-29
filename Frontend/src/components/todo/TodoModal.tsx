@@ -1,28 +1,38 @@
 import { FormEvent, useContext, useState } from "react";
 import { EntriesContext, UiContext } from "@/context";
-import { Entry } from "@/interfaces";
+import { Entry, EntryStatus } from "@/interfaces";
+import { useForm } from "react-hook-form";
 
+
+interface FormInput {
+  title: string; 
+  description: string;
+  status: EntryStatus;
+}
 
 export const TodoModal = () => {
 
-  const [entry, setEntry] = useState<Entry>({
-    id: "10",
-    title: "saludar",
-    description: "hola",
-    status: "in-progress"
-  }); 
+  
 
-  const { title, description, status } = entry 
+  const { register, handleSubmit, formState:{errors} } = useForm<FormInput>();
   const { isModalOpen,closeModal } = useContext(UiContext); 
   const { addEntry } = useContext(EntriesContext);
 
   const handleCloseModal = () => {
     closeModal();
   }
-  
-  const handleAddTodo = (event:FormEvent) => {
-    event.preventDefault();
-    addEntry(entry); 
+
+  const onSubmit = ({title, description, status}:FormInput) => {
+
+    if(!title || !status) return;
+
+    const newEntry:Entry = {
+      title, 
+      description, 
+      status, 
+      createdAt:new Date().toISOString().split("T")[0]
+    }
+    addEntry(newEntry);
     closeModal();
   }
 
@@ -39,26 +49,22 @@ export const TodoModal = () => {
             </button>
           </div>
           <div className="flex flex-col items-center mt-10 2xl:mt-28">
-            <form className="flex flex-col" onSubmit={ handleAddTodo }>
+            <form className="flex flex-col" onSubmit={ handleSubmit(onSubmit) }>
               <input 
                 className="w-[350px] p-1 rounded-md bg-slate-700 text-slate-50 placeholder:text-slate-300 px-2 2xl:w-[400px] 2xl:py-3"
                 placeholder="Title"
-                name="title"
-                value={title}
-                onChange={ (e) => setEntry({...entry, title: e.target.value})}
-              />
+                {...register("title", { required: true })}
+                />
+              {errors.title && <span className="text-red-500">Title is required!</span>}
               <textarea
                 className="w-[350px] p-1 rounded-md bg-slate-700 text-slate-50 placeholder:text-slate-300 px-2 mt-2 2xl:w-[400px] 2xl:py-3"
                 placeholder="Description"
-                name="description"
-                value={description}
-                onChange={ (e) => setEntry({...entry, description: e.target.value})}
+                {...register("description", { required: false })}
               />
               <select
                 className="w-[350px] p-1 rounded-md bg-slate-700 text-slate-50 placeholder:text-slate-300 px-2 mt-2 2xl:w-[400px] 2xl:py-3"
-                name="status"
-                value={status}
-                onChange={ (e) => console.log(e.target.value)}
+                {...register("status", { required: true })}
+                {...errors.status && <span className="text-red-500">Status is required!</span>}
               >
                 <option value="pending">Pending</option>
                 <option value="in-progress">In Progress</option>

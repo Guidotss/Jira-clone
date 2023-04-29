@@ -1,7 +1,11 @@
-import { IsString,MinLength,IsOptional,IsIn } from "class-validator";
+import { IsString,MinLength,IsOptional,IsIn, IsUUID } from "class-validator";
 import { EntryStatus } from "../entities/entry.entity";
 
 export class CreateEntryDto {
+
+    @IsUUID()
+    id: string;
+
     @IsString()
     @MinLength(3)
     title: string; 
@@ -17,5 +21,10 @@ export class CreateEntryDto {
     @IsString()
     @IsOptional()
     createdAt?: string;
+
+    @IsString()
+    @IsOptional()
+    updatedAt?: string;
+    
 
 }

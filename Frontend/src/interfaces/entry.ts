@@ -5,4 +5,6 @@ export interface Entry {
     title: string; 
     description?: string;
     status:EntryStatus; 
+    createdAt?: string;
+    updatedAt?: string;
 }
