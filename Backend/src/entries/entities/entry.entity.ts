@@ -5,7 +5,7 @@ export type EntryStatus = 'pending' | 'in-progress' | 'completed';
 @Entity({name:'entries'})
 export class Entry {
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @Column({
         type:'text',
@@ -30,4 +30,10 @@ export class Entry {
         nullable:true
     })
     createdAt: string;
+
+    @Column({
+        type:'text',
+        nullable:true
+    })
+    updatedAt: string;
 }
