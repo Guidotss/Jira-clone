@@ -19,7 +19,7 @@ export const TodoGrid = () => {
   return (
     <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
       <div className="grid grid-cols-3 gap-20">
-        <div className="h-screen bg-slate-800 flex flex-col items-center overflow-y-auto body-scroll-bar rounded-lg">
+        <div className="h-screen bg-slate-800 flex flex-col items-center overflow-y-auto body-scroll-bar rounded-lg w-[350px]">
           <h1 className="text-2xl text-slate-50 tracking-wide mt-3">Pending</h1>
           <button 
             className="border-[1px] border-red-500 px-2 w-3/4 mt-2 rounded-full hover:bg-red-500"
@@ -41,7 +41,7 @@ export const TodoGrid = () => {
             )}
           </Droppable>
         </div>
-      <div className="h-screen bg-slate-800 flex flex-col items-center overflow-y-auto body-scroll-bar rounded-lg">
+      <div className="h-screen bg-slate-800 flex flex-col items-center overflow-y-auto body-scroll-bar rounded-lg w-[350px]">
         <h1 className="text-2xl text-slate-50 tracking-wide mt-3">In-progress</h1>
         <Droppable droppableId="in-progress">
           {(provided) => (
@@ -56,7 +56,7 @@ export const TodoGrid = () => {
           )}
         </Droppable>
       </div>
-      <div className="h-screen bg-slate-800 flex flex-col items-center overflow-y-auto body-scroll-bar rounded-lg">
+      <div className="h-screen bg-slate-800 flex flex-col items-center overflow-y-auto body-scroll-bar rounded-lg w-[350px]">
         <h1 className="text-2xl text-slate-50 tracking-wide m-3">Completed</h1>
         <Droppable droppableId="completed">
           {(provided) => (
