@@ -5,7 +5,8 @@ import { EntriesState } from '.'
 type EntriesActionType = 
  | { type: '[ENTRIES] - Load-entries',payload: Entry[] }
  | { type: '[ENTRIES] - Add-entry',payload: Entry }
- | { type: '[ENTRIES] - Update-status',payload: Entry[] }
+ | { type: '[ENTRIES] - Update-status',payload: Entry }
+ | { type: '[ENTRIES] - Update-entry',payload: Entry}
  
 export const entriesReducer = (state:EntriesState,action:EntriesActionType ):EntriesState => {
     switch (action.type) {
@@ -22,7 +23,12 @@ export const entriesReducer = (state:EntriesState,action:EntriesActionType ):Ent
         case '[ENTRIES] - Update-status':
             return {
                 ...state,
-                entries: action.payload
+                entries: state.entries.map( entry => entry.id === action.payload.id ? action.payload : entry)
+            }
+        case '[ENTRIES] - Update-entry':
+            return {
+                ...state,
+                entries: state.entries.map( entry => entry.id === action.payload.id ? action.payload : entry)
             }
         default:
             return state

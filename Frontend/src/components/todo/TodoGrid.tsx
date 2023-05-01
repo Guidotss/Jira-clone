@@ -1,14 +1,15 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { UiContext } from "@/context";
 import { useDrag } from "@/hooks";
 import { TodoList } from "./TodoList";
 
 
-export const TodoGrid = () => {
+export const  TodoGrid = () => {
 
   const { openModal } = useContext(UiContext);
   const { pendingEntries, completedEntries, inProgressEntries, onDragEnd } = useDrag(); 
+  
 
   const handleOpenModal = () => {
     openModal();

@@ -5,25 +5,16 @@ import { EntriesContext } from "@/context";
 export const useDrag = () => {
   const { entries, updateStatus } = useContext(EntriesContext);
 
+
   useEffect(() => {
-    setPendingEntries(entries.filter((entry) => entry.status === "pending"));
-    setInProgressEntries(
-      entries.filter((entry) => entry.status === "in-progress")
-    );
-    setCompletedEntries(
-      entries.filter((entry) => entry.status === "completed")
-    );
+    setPendingEntries(entries?.filter((entry) => entry.status === "pending"));
+    setInProgressEntries(entries?.filter((entry) => entry.status === "in-progress"));
+    setCompletedEntries(entries?.filter((entry) => entry.status === "completed"));
   }, [entries]);
 
-  const [pendingEntries, setPendingEntries] = useState<Entry[]>(
-    entries.filter((entry) => entry.status === "pending")
-  );
-  const [inProgressEntries, setInProgressEntries] = useState<Entry[]>(
-    entries.filter((entry) => entry.status === "in-progress")
-  );
-  const [completedEntries, setCompletedEntries] = useState<Entry[]>(
-    entries.filter((entry) => entry.status === "completed")
-  );
+  const [pendingEntries, setPendingEntries] = useState<Entry[]>(entries?.filter((entry) => entry.status === "pending"));
+  const [inProgressEntries, setInProgressEntries] = useState<Entry[]>(entries?.filter((entry) => entry.status === "in-progress"));
+  const [completedEntries, setCompletedEntries] = useState<Entry[]>(entries?.filter((entry) => entry.status === "completed"));
 
   const onDragEnd = (result: any) => {
     const { source, destination } = result;

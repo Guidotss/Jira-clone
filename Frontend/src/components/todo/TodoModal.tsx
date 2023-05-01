@@ -11,10 +11,8 @@ interface FormInput {
 }
 
 export const TodoModal = () => {
-
   
-
-  const { register, handleSubmit, formState:{errors} } = useForm<FormInput>();
+  const { register, handleSubmit, formState:{errors} } = useForm<FormInput>(); 
   const { isModalOpen,closeModal } = useContext(UiContext); 
   const { addEntry } = useContext(EntriesContext);
 
@@ -27,6 +25,7 @@ export const TodoModal = () => {
     if(!title || !status) return;
 
     const newEntry:Entry = {
+      id:Math.random().toString(36).substr(2, 9),
       title, 
       description, 
       status, 
