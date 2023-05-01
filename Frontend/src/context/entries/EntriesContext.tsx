@@ -5,6 +5,7 @@ export interface EntriesContextProps {
     entries: Entry[]; 
 
     addEntry: (entry: Entry) => void;
+    updateStatus:( entry:Entry ) => void; 
 }
 
 export const EntriesContext = createContext({} as EntriesContextProps);

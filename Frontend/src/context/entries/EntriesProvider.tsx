@@ -43,12 +43,21 @@ export const EntriesProvider:FC<EntriesProviderProps> = ({ children }) => {
         }
     }
 
+    const updateStatus = async (entry:Entry) => {
+        try{
+            const { data } = await todoApi.patch(`/entries/${entry.id}`, entry);    
+        }catch(error){
+            console.log(error); 
+        }
+    }
+
 
     return (
         <EntriesContext.Provider value={{
             ...state,
 
             addEntry,
+            updateStatus
             
         }}>
             { children }
