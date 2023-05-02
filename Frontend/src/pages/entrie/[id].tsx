@@ -1,4 +1,4 @@
-import { useContext, useReducer } from 'react';
+import { useContext, useReducer, useState } from 'react';
 import Link from 'next/link';
 import { GetServerSideProps, NextPage } from 'next';
 import { useForm } from 'react-hook-form';
@@ -7,6 +7,7 @@ import { EntriesContext } from '@/context';
 import { getEntryById } from '@/db';
 import { EntryStatus } from '@/interfaces';
 import { useRouter } from 'next/router';
+import { GarbageCanIcon } from '@/components';
 
 interface EntryPageProps { 
     id: string; 
@@ -23,9 +24,11 @@ interface EntryForm {
 }
 
 const EntryPage:NextPage<EntryPageProps> = ({ id, title, description,status,updatedAt }) => {
+    const [ isDeleteModalOpen, setIsDeleteModalOpen ] = useState<boolean>(false); 
+
 
     const { register, handleSubmit, formState:{errors} } = useForm<EntryForm>();
-    const { updateEntry } = useContext(EntriesContext); 
+    const { updateEntry,deleteEntry } = useContext(EntriesContext); 
     const router = useRouter(); 
 
     const onSubmit = (data: EntryForm) => {
@@ -38,6 +41,12 @@ const EntryPage:NextPage<EntryPageProps> = ({ id, title, description,status,upda
             updatedAt: new Date().toISOString()
         }
         updateEntry(entry);
+    }
+
+
+    const handleDelete = () => {
+        deleteEntry(id);
+        router.push('/');
     }
 
     return (
@@ -57,7 +66,7 @@ const EntryPage:NextPage<EntryPageProps> = ({ id, title, description,status,upda
                     />
                     {errors.title && <span className='text-red-500'>Title is required!</span>}
                     <textarea 
-                        className='bg-slate-700 w-[350px] rounded-lg p-1 mt-3 text-slate-50 text-lg' 
+                        className='bg-slate-700 w-[350px] rounded-lg p-1 mt-3 text-slate-50 text-lg px-2' 
                         rows={5}
                         {...register('description', { required: false })}
                         defaultValue={description}
@@ -76,6 +85,24 @@ const EntryPage:NextPage<EntryPageProps> = ({ id, title, description,status,upda
                         Edit
                     </button>
                 </form>
+            </div>
+            <button className='bg-red-500 p-5 rounded-full shadow-lg absolute right-10 bottom-10' onClick={() => setIsDeleteModalOpen(true)}>
+                <GarbageCanIcon/>
+            </button>
+            <div className={`absolute z-20 shadow-2xl bg-opacity-50 ${isDeleteModalOpen ? 'block' : 'hidden'}`}>
+                <div className='flex flex-col items-center justify-center bg-slate-700 rounded-lg w-[600px] h-[300px] shadow-lg'>
+                    <h3 className='text-slate-50 text-xl'>
+                        Are you sure you want to delete this entry?
+                    </h3>
+                    <div className='flex justify-center mt-5'>
+                        <button className='bg-red-500 p-2 rounded-lg shadow-lg text-slate-50 hover:bg-red-600 transition w-[100px]' onClick={handleDelete}>
+                            Yes
+                        </button>
+                        <button className='bg-green-500 p-2 rounded-lg shadow-lg text-slate-50 hover:bg-green-600 transition ml-5 w-[100px]' onClick={() => setIsDeleteModalOpen(false)}>
+                            No
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     )

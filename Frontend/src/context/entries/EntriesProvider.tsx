@@ -63,6 +63,20 @@ export const EntriesProvider: FC<EntriesProviderProps> = ({ children }) => {
     }
   };
   
+
+  const deleteEntry = async( id:string ) => {
+    try{
+      const { data } = await todoApi.delete(`/entries/${id}`);
+      dispatch({
+        type: "[ENTRIES] - Delete-entry",
+        payload: id,
+      });
+
+    }catch(error){
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     getEntries();
   },[]); 
@@ -75,6 +89,7 @@ export const EntriesProvider: FC<EntriesProviderProps> = ({ children }) => {
         addEntry,
         updateStatus,
         updateEntry,
+        deleteEntry,
       }}
     >
       {children}
