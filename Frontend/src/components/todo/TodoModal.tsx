@@ -2,6 +2,7 @@ import { FormEvent, useContext, useState } from "react";
 import { EntriesContext, UiContext } from "@/context";
 import { Entry, EntryStatus } from "@/interfaces";
 import { useForm } from "react-hook-form";
+import { v4 as uuid } from "uuid";
 
 
 interface FormInput {
@@ -25,7 +26,7 @@ export const TodoModal = () => {
     if(!title || !status) return;
 
     const newEntry:Entry = {
-      id:Math.random().toString(36).substr(2, 9),
+      id:uuid(),
       title, 
       description, 
       status, 

@@ -41,7 +41,7 @@ const EntryPage:NextPage<EntryPageProps> = ({ id, title, description,status,upda
     }
 
     return (
-        <div className='flex flex-col items-center justify-center mt-[200px]'>
+        <div className='flex flex-col items-center justify-center 2xl:mt-[200px] mt-20'>
             <div className='absolute left-2 top-2'>
                 <Link href='/' passHref legacyBehavior>
                     <a className='text-2xl text-slate-50'>← Volver</a>

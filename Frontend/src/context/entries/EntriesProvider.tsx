@@ -3,6 +3,7 @@ import { EntriesContext, entriesReducer } from "./";
 import { todoApi } from "@/api";
 import { Entry } from "@/interfaces";
 import { useSnackbar } from 'notistack'; 
+
 interface EntriesProviderProps {
   children: React.ReactNode;
 }
@@ -31,7 +32,7 @@ export const EntriesProvider: FC<EntriesProviderProps> = ({ children }) => {
 
   const addEntry = async (entry: Entry) => {
     try {
-      const { data } = await todoApi.post("/entries", entry);
+      const { data } = await todoApi.post("/entries",entry);
       dispatch({
         type: "[ENTRIES] - Add-entry",
         payload: data,
